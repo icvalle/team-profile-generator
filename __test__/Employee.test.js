@@ -1,6 +1,49 @@
-const employee = require("../lib/Employee");
+const Employee = require("../lib/Employee");
 
 test("Employee instance", () => {
-    const e = new employee();
-    expect(typeof(e)).toBe("object")
+    const newEmployee = new Employee();
+    expect(typeof(newEmployee)).toBe("object")
 })
+
+describe("Employee class", () => {
+    describe("getName method", () => {
+      it("retrieves Employee's name", () => {
+        const newEmployee = new Employee([
+          { name: "Andrea", id: 010, email: "andrea@andrea.com" }
+        ]);
+        newEmployee.getName();
+        expect(newEmployee.name).toBe("Andrea");
+      });
+    });
+
+    describe("getId method", () => {
+        it("retrieves Employee's id", () => {
+          const newEmployee = new Employee([
+            { name: "Andrea", id: 010, email: "andrea@andrea.com" }
+          ]);
+          newEmployee.getId();
+          expect(newEmployee.id).toBe(010);
+        });
+    });
+
+    describe("getEmail method", () => {
+        it("retrieves Employee's email", () => {
+          const newEmployee = new Employee([
+            { name: "Andrea", id: 010, email: "andrea@andrea.com" }
+          ]);
+          newEmployee.getEmail();
+          expect(newEmployee.email).toBe("andrea@andrea.com");
+        });
+    });
+
+    describe("getRole method", () => {
+        it("retrieves Employee's role'", () => {
+          const newEmployee = new Employee([
+            { name: "Andrea", id: 010, email: "andrea@andrea.com" }
+          ]);
+          newEmployee.getRole();
+          expect(newEmployee.getRole()).toBe("Employee");
+        });
+    });
+  
+  });
