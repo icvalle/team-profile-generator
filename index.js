@@ -3,7 +3,8 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const fs = require("fs");
 const inquirer = require("inquirer");
-
+const generateTeamRoster = require("./src/generateTeamRoster");
+let teamMembers = [];
 
 menu = () => {
     createManager = () => {
@@ -12,12 +13,6 @@ menu = () => {
                 type: "input",
                 name: "name",
                 message: "Enter the manager's name",
-                // validate: function (value) {
-                //     if (typeof value !== 'name') {
-                //     done('You need to provide a name');
-                //     return;
-                //     }
-                // }
             },
             {
                 type: "input",
@@ -36,10 +31,36 @@ menu = () => {
             }
         ]).then(({name, id, email, office}) => {
             const manager = new Manager(name, id, email, office);
-            console.log(manager);
+            teamMembers.push(manager);
+            //console.log(manager);
+            nextTeamMember();
         });
+        
     }
     createManager();
+
+    nextTeamMember = () => {
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "member",
+                message: "Which type of team memeber would you like to add?",
+                choices: ['Engineer', 'Intern', 'None']
+            }
+        ]).then(({member}) => {
+            if (member === "Engineer") {
+                createEngineer();
+            } else if (member === "Intern") {
+                createIntern();
+            } else {
+                 const teamContent = generateTeamRoster(teamMembers);
+                 fs.writeFile("./dist/team-roster.html", teamContent, (err) =>
+                   err ? console.log(err) : console.log("Successfully created your team roster!")
+                 );
+            }
+        });
+    }
+
     createEngineer = () => {
         inquirer.prompt([
             {
@@ -59,15 +80,17 @@ menu = () => {
             },
             {
                 type: "input",
-                name: "office",
+                name: "github",
                 message: "What is the engineer's GitHub username?",
             }
         ]).then(({name, id, email, github}) => {
             const engineer = new Engineer(name, id, email, github);
-            console.log(engineer);
+            teamMembers.push(engineer);
+            //console.log(engineer);
+            nextTeamMember();
         });
     }
-    createEngineer();
+    
     createIntern = () => {
         inquirer.prompt([
             {
@@ -87,15 +110,16 @@ menu = () => {
             },
             {
                 type: "input",
-                name: "office",
+                name: "school",
                 message: "What school does the intern attend?",
             }
         ]).then(({name, id, email, school}) => {
             const intern = new Intern(name, id, email, school);
-            console.log(intern);
+            teamMembers.push(intern);
+            //console.log(intern);
+            nextTeamMember();
         });
     }
-    createIntern();
 }
 
 menu();
