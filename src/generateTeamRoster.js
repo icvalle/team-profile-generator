@@ -12,41 +12,49 @@ function renderManager(manager) {
 </figure>`;
 }
 
-// function renderEngineer(engineers) {
-//     engineers.forEach(engineer => {
-//         return `<figure class="card">
-//         <div class="card-body">
-//             <h2>${engineer.name}</h2>
-//             <h3><i class="fa fa-cogs"></i> ${engineer.getRole()}</h3>
-//         </div>
-//         <ul class="list-group list-group-flush">
-//             <li class="list-group-item">ID: ${engineer.id}</li>
-//             <li class="list-group-item">Email: ${engineer.email}</li>
-//             <li class="list-group-item">GitHub: ${engineer.github}</li>
-//         </ul>
-//         </figure>`;
-//     });
-// }
+function renderEngineer(engineer) {
+    return `<figure class="card">
+        <div class="card-body">
+            <h2>${engineer.name}</h2>
+            <h3><i class="fa fa-cogs"></i> ${engineer.getRole()}</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">ID: ${engineer.id}</li>
+            <li class="list-group-item">Email: ${engineer.email}</li>
+            <li class="list-group-item">GitHub: ${engineer.github}</li>
+        </ul>
+        </figure>`;
+    }
 
-// function renderIntern(interns) {
-//     interns.forEach(intern => {
-//         return `<figure class="card">
-//         <div class="card-body">
-//             <h2>${intern.name}</h2>
-//             <h3><i class="fa fa-graduation-cap"></i> ${intern.getRole()}</h3>
-//         </div>
-//         <ul class="list-group list-group-flush">
-//             <li class="list-group-item">ID: ${intern.id}</li>
-//             <li class="list-group-item">Email: ${intern.email}</li>
-//             <li class="list-group-item">School: ${intern.school}</li>
-//         </ul>
-//         </figure>`;
-//     });
-// }
+
+function renderIntern(intern) {
+    return `<figure class="card">
+        <div class="card-body">
+            <h2>${intern.name}</h2>
+            <h3><i class="fa fa-graduation-cap"></i> ${intern.getRole()}</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">ID: ${intern.id}</li>
+            <li class="list-group-item">Email: ${intern.email}</li>
+            <li class="list-group-item">School: ${intern.school}</li>
+        </ul>
+        </figure>`;
+}
 
 function generateTeamRoster(teamMembers) { 
-    // const engineerMembers = teamMembers.filter(member => member.getRole() === "Engineer");
-    // const internMembers = teamMembers.filter(member => member.getRole() === "Intern");
+    teamMembers.filter((member) => {
+        if (member.getRole() === "Engineer") {
+            for (i = 0; i < member.length; i++) {
+                renderEngineer(member);
+            }
+        } else if (member.getRole() === "Intern"){
+            for (i = 0; i < member.length; i++) {
+                renderIntern(member);
+            }
+        } else {
+            return;
+        }
+    });
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
