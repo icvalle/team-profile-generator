@@ -6,11 +6,12 @@ function renderManager(manager) {
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">ID: ${manager.id}</li>
-        <li class="list-group-item">Email: ${manager.email}</li>
+        <li class="list-group-item">Email: <a href="mailto:${manager.email}">${manager.email}</a></li>
         <li class="list-group-item">Office Number: ${manager.officeNumber}</li>
     </ul>
 </figure>`;
 }
+
 
 function renderEngineer(engineer) {
     return `<figure class="card">
@@ -20,8 +21,8 @@ function renderEngineer(engineer) {
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: ${engineer.id}</li>
-            <li class="list-group-item">Email: ${engineer.email}</li>
-            <li class="list-group-item">GitHub: ${engineer.github}</li>
+            <li class="list-group-item">Email: <a href="mailto:${engineer.email}">${engineer.email}</a></li>
+            <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.github}" target="_blank">${engineer.github}</a></li>
         </ul>
         </figure>`;
     }
@@ -35,25 +36,40 @@ function renderIntern(intern) {
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: ${intern.id}</li>
-            <li class="list-group-item">Email: ${intern.email}</li>
+            <li class="list-group-item">Email: <a href="mailto:${intern.email}">${intern.email}</a></li>
             <li class="list-group-item">School: ${intern.school}</li>
         </ul>
         </figure>`;
 }
 
 function generateTeamRoster(teamMembers) { 
-    teamMembers.filter((member) => {
-        if (member.getRole() === "Engineer") {
-            for (i = 0; i < member.length; i++) {
-                renderEngineer(member);
-            }
-        } else if (member.getRole() === "Intern"){
-            for (i = 0; i < member.length; i++) {
-                renderIntern(member);
-            }
-        } else {
-            return;
-        }
+    const employeeArray = [];
+
+    const managerArray = teamMembers.filter((member) => {
+        return member.getRole() === "Manager"
+    });
+
+    const engineerArray = teamMembers.filter((member) => {
+        return member.getRole() === "Engineer"
+    });
+
+    const internArray = teamMembers.filter((member) => {
+        return member.getRole() === "Intern"
+    });
+
+    managerArray.forEach(manager => {
+        const renderedManager = renderManager(manager);
+        employeeArray.push(renderedManager);
+    });
+
+    engineerArray.forEach(engineer => {
+        const renderedEngineer = renderEngineer(engineer);
+        employeeArray.push(renderedEngineer);
+    });
+
+    internArray.forEach(intern => {
+        const renderedIntern = renderIntern(intern);
+        employeeArray.push(renderedIntern);
     });
     return `<!DOCTYPE html>
     <html lang="en">
@@ -72,46 +88,10 @@ function generateTeamRoster(teamMembers) {
             <h1>My Team</h1>
         </header>
         <main>
-            ${renderManager(teamMembers[0])}
-            
-            <figure class="card">
-                <div class="card-body">
-                    <h2>Jared</h2>
-                    <h3><i class="fa fa-coffee"></i> Manager</h3>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID:</li>
-                    <li class="list-group-item">Email:</li>
-                    <li class="list-group-item">Office Number:</li>
-                </ul>
-            </figure>
-            
-            <figure class="card">
-                <div class="card-body">
-                    <h2>Grace</h2>
-                    <h3><i class="fa fa-cogs"></i> Engineer</h3>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID:</li>
-                    <li class="list-group-item">Email:</li>
-                    <li class="list-group-item">GitHub:</li>
-                </ul>
-            </figure>
-    
-            <figure class="card">
-                <div class="card-body">
-                    <h2>John</h2>
-                    <h3><i class="fa fa-graduation-cap"></i> Intern</h3>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID:</li>
-                    <li class="list-group-item">Email:</li>
-                    <li class="list-group-item">School:</li>
-                </ul>
-            </figure>
+            ${employeeArray.join("")}
         </main>
     
-    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
         <script src="../index.js"></script>
     </body>

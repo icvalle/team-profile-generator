@@ -32,7 +32,6 @@ menu = () => {
         ]).then(({name, id, email, office}) => {
             const manager = new Manager(name, id, email, office);
             teamMembers.push(manager);
-            //console.log(manager);
             nextTeamMember();
         });
         
@@ -86,7 +85,6 @@ menu = () => {
         ]).then(({name, id, email, github}) => {
             const engineer = new Engineer(name, id, email, github);
             teamMembers.push(engineer);
-            //console.log(engineer);
             nextTeamMember();
         });
     }
@@ -116,7 +114,6 @@ menu = () => {
         ]).then(({name, id, email, school}) => {
             const intern = new Intern(name, id, email, school);
             teamMembers.push(intern);
-            //console.log(intern);
             nextTeamMember();
         });
     }
